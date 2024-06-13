@@ -2077,12 +2077,12 @@
           "type": "string",
           "default": "%zowe.logger.info%",
           "enum": [
+            "%zowe.logger.off%",
             "%zowe.logger.trace%",
             "%zowe.logger.debug%",
             "%zowe.logger.info%",
             "%zowe.logger.warn%",
-            "%zowe.logger.error%",
-            "%zowe.logger.fatal%"
+            "%zowe.logger.error%"
           ],
           "markdownEnumDescriptions": [
             "%zowe.logger.trace.description%",

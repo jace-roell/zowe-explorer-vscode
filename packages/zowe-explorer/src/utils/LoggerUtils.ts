@@ -18,12 +18,19 @@ import { SettingsConfig } from "../configuration/SettingsConfig";
 import { ZoweLogger } from "../tools/ZoweLogger";
 
 export class LoggerUtils {
-    public static async initVscLogger(context: vscode.ExtensionContext, logFileLocation: string): Promise<vscode.OutputChannel> {
-        const outputChannel = Gui.createOutputChannel(vscode.l10n.t("Zowe Explorer"));
-        this.writeVscLoggerInfo(outputChannel, logFileLocation, context);
+    private static zeOutputChannel: vscode.LogOutputChannel;
+
+    public static async initVscLogger(context: vscode.ExtensionContext, logFileLocation: string): Promise<vscode.LogOutputChannel> {
+        // const zeLogSetting = SettingsConfig.getDirectValue(Constants.LOGGER_SETTINGS);
+        this.zeOutputChannel = vscode.window.createOutputChannel(vscode.l10n.t("Zowe Explorer"), { log: true });
+        this.zeOutputChannel.onDidChangeLogLevel((loglevel) => {
+            this.setLogSetting(Number(loglevel));
+        });
+        console.log(this.zeOutputChannel.logLevel);
+        this.writeVscLoggerInfo(this.zeOutputChannel, logFileLocation, context);
         ZoweLogger.info(vscode.l10n.t("Initialized logger for Zowe Explorer"));
         await this.compareCliLogSetting();
-        return outputChannel;
+        return this.zeOutputChannel;
     }
 
     private static writeVscLoggerInfo(outputChannel: vscode.OutputChannel, logFileLocation: string, context: vscode.ExtensionContext): void {
@@ -75,7 +82,7 @@ export class LoggerUtils {
         });
     }
 
-    private static setLogSetting(setting: string): void {
+    private static setLogSetting(setting: string | Number): void {
         SettingsConfig.setDirectValue(Constants.LOGGER_SETTINGS, setting);
     }
 

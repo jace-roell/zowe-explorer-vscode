@@ -18,7 +18,7 @@ import { Gui, imperative, MessageSeverity, ZoweVsCodeExtension } from "@zowe/zow
 import { padLeft } from "@zowe/core-for-zowe-sdk";
 
 export class ZoweLogger {
-    public static zeOutputChannel: vscode.OutputChannel;
+    public static zeOutputChannel: vscode.LogOutputChannel;
     public static log: imperative.Logger;
     private static defaultLogLevel: "INFO";
     private static zeLogLevel: string;

@@ -101,7 +101,7 @@
   "zowe.logger.info": "INFO",
   "zowe.logger.warn": "WARN",
   "zowe.logger.error": "ERROR",
-  "zowe.logger.fatal": "FATAL",
+  "zowe.logger.off": "OFF",
   "zowe.logger.trace.description": "Messages about fine details of the application's behaviour.",
   "zowe.logger.debug.description": "Messages about diagnostic information for troubleshooting.",
   "zowe.logger.info.description": "Messages about routine application operations.",
