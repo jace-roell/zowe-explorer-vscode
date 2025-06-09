@@ -37,6 +37,7 @@ import { ZoweExplorerExtender } from "../extending/ZoweExplorerExtender";
 import { FilterDescriptor, FilterItem } from "../management/FilterManagement";
 import { AuthUtils } from "../utils/AuthUtils";
 import { DeferredPromise } from "@zowe/imperative";
+import { SharedInit } from "../trees/shared/SharedInit";
 
 export class Profiles extends ProfilesCache {
     // Processing stops if there are no profiles detected
@@ -1214,7 +1215,7 @@ export class Profiles extends ProfilesCache {
 
     public static extenderTypeReady = new Map();
 
-    public _resolveTypePromise(extenderType: string): void {
+    public async _resolveTypePromise(extenderType: string): Promise<void> {
         const profInfo = Profiles.getInstance();
         const profilesWithExtenderType = profInfo.allProfiles.filter((profile) => profile.type === extenderType);
         for (const profile of profilesWithExtenderType) {
@@ -1226,5 +1227,7 @@ export class Profiles extends ProfilesCache {
                 Profiles.extenderTypeReady.get(profile.name).resolve();
             }
         }
+
+        await SharedInit.setupRemoteWorkspaceFolders(undefined, extenderType);
     }
 }
